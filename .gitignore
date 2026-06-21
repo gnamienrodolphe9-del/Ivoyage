@@ -1,0 +1,30 @@
+# Node.js
+node_modules/
+
+# Variables d'environnement
+.env
+.env.*
+
+# Logs
+*.log
+logs/
+
+# Cache
+.cache/
+
+# Build
+dist/
+build/
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db
+
+# Mac
+.DS_Store
+
+node_modules/
+.env
+.env.*
