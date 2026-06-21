@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>iVoyage — DesirCompagny</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="assets/css/main.css"/>
+  <link rel="stylesheet" href="assets/css/user.css"/>
+  <link rel="stylesheet" href="assets/css/responsive.css"/>
+</head>
+<body>
+
+<div id="app">
+  <div class="phone">
+
+    <!-- ═══════════════════════════════════
+     OVERLAY + DRAWER
+    ═══════════════════════════════════ -->
+    <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+    <div class="drawer" id="drawer">
+      <div class="drawer-head">
+        <div class="tbar-logo">
+          <div class="tbar-logo-icon">
+            <img src="assets/images/DesirCompagny.jpg" alt="DésirCompagny"/>
+          </div>
+          <span class="tbar-logo-name">iVoyage-DesirCompagny</span>
+        </div>
+        <div class="drawer-user">
+          <div class="drawer-av" id="drAv">👤</div>
+          <div>
+            <div class="drawer-name" id="drName">Bonjour !</div>
+            <div class="drawer-sub" id="drSub">Connectez-vous</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="drawer-nav">
+        <a class="drawer-link on" onclick="uNav('home');closeDrawer()">
+          <span class="di"><i data-lucide="home"></i></span> Accueil
+        </a>
+        <a class="drawer-link" onclick="uNav('home');openExploreTab('companies');closeDrawer()">
+          <span class="di"><i data-lucide="building"></i></span> Compagnies
+        </a>
+        <a class="drawer-link" onclick="uNav('home');openExploreTab('how');closeDrawer()">
+          <span class="di"><i data-lucide="help-circle"></i></span> Comment ça marche
+        </a>
+        <a class="drawer-link" onclick="uNav('account');closeDrawer()">
+          <span class="di"><i data-lucide="user"></i></span> Mon compte
+        </a>
+        <div class="drawer-sep"></div>
+        <a class="drawer-link" onclick="openModal('notifModal');closeDrawer()">
+          <span class="di"><i data-lucide="bell"></i></span> Notifications
+        </a>
+        <a class="drawer-link" onclick="openModal('chatModal');closeDrawer()">
+          <span class="di"><i data-lucide="message-circle"></i></span> Support client
+        </a>
+      </nav>
+
+      <div class="drawer-foot">
+        <!-- Espace pro — discret -->
+        <a class="drawer-link" onclick="window.location.href='Company.html'"
+           style="opacity:0.5;font-size:12px">
+          <span class="di"><i data-lucide="briefcase"></i></span>
+          Espace professionnel
+        </a>
+        <a class="drawer-link danger" id="drLogout"
+           onclick="uLogout();closeDrawer()" style="display:none">
+          <span class="di"><i data-lucide="log-out"></i></span> Déconnexion
+        </a>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════
+     AUTH LAYER
+    ═══════════════════════════════ -->
+    <div class="auth-layer" id="authLayer">
+      <div class="auth-head">
+        <button class="back-btn" onclick="closeAuth()">←</button>
+        <div class="tbar-logo">
+          <div class="tbar-logo-icon">
+            <img src="assets/images/DesirCompagny.jpg" alt="DésirCompagny"/>
+          </div>
+          <span class="tbar-logo-name">DésirCompagny</span>
+        </div>
+      </div>
+      <div class="auth-body">
+        <div id="authLogin">
+          <div class="auth-h">Bon retour !</div>
+          <p class="auth-sub">Connectez-vous pour finaliser votre réservation.</p>
+          <div class="afield">
+            <label>Téléphone ou email</label>
+            <input id="a-id" type="text" placeholder="+225 07 00 00 00 00"/>
+          </div>
+          <div class="afield">
+            <label>Mot de passe</label>
+            <input id="a-pw" type="password" placeholder="••••••••"/>
+          </div>
+          <button class="btn-auth" onclick="uLogin()">Se connecter</button>
+          <div class="auth-switch">
+            Pas de compte ? <a onclick="switchAuth('register')">Créer un compte</a>
+          </div>
+        </div>
+        <div id="authRegister" style="display:none">
+          <div class="auth-h">Créer un compte</div>
+          <p class="auth-sub">Pour finaliser votre première réservation.</p>
+          <div class="half-row">
+            <div class="afield"><label>Prénom *</label><input id="r-fn" type="text" placeholder="Prénom"/></div>
+            <div class="afield"><label>Nom *</label><input id="r-ln" type="text" placeholder="Nom"/></div>
+          </div>
+          <div class="afield">
+            <label>Téléphone *</label>
+            <input id="r-tel" type="tel" placeholder="+225 07 00 00 00 00"/>
+          </div>
+          <div class="afield">
+            <label>Email</label>
+            <input id="r-email" type="email" placeholder="votre@email.com"/>
+          </div>
+          <div class="afield">
+            <label>Mot de passe *</label>
+            <input id="r-pw" type="password" placeholder="Min. 8 caractères"/>
+          </div>
+          <button class="btn-auth" onclick="uRegister()">Créer mon compte</button>
+          <div class="auth-switch">
+            Déjà un compte ? <a onclick="switchAuth('login')">Se connecter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+     ██ SPLASH
+    ═══════════════════════════════════════ -->
+    <div class="scr on" id="scr-splash">
+      <div class="splash-logo">
+        <img src="assets/images/DesirCompagny.jpg" alt="DésirCompagny"
+             style="height:100%;width:auto;border-radius:30%"/>
+      </div>
+      <div class="splash-name"></div>
+      <p class="splash-tagline">La plateforme de réservation de bus<br/>en Côte d'Ivoire</p>
+      <div class="splash-cards">
+        <div class="splash-card primary" onclick="switchToUser()">
+          <span class="splash-card-icon"><i data-lucide="baggage-claim"></i></span>
+          <div>
+            <div class="splash-card-label">Réserver un ticket</div>
+            <div class="splash-card-sub">Trouvez votre trajet en quelques clics</div>
+          </div>
+          <span style="color:rgba(255,255,255,.7);font-size:18px;margin-left:auto">→</span>
+        </div>
+      </div>
+      <div class="splash-footer">🇨🇮 iVoyage · DesirCompagny · v1.0</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+     ██ SCREEN HOME
+    ═══════════════════════════════════════ -->
+    <div class="scr" id="scr-uHome">
+      <div class="topbar">
+        <div class="tbar-logo">
+          <div class="tbar-logo-icon">
+            <img src="assets/images/DesirCompagny.jpg" alt="DésirCompagny"
+                 style="height:40px;width:40px;border-radius:1px"/>
+          </div>
+          <span class="tbar-logo-name">DesirCompagny</span>
+        </div>
+        <div class="tbar-right">
+          <button class="tbar-btn" onclick="openModal('notifModal')">
+            <i data-lucide="bell"></i>
+            <span class="notif-badge"></span>
+          </button>
+          <button class="tbar-btn" onclick="openDrawer()">
+            <i data-lucide="menu"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="scroll" id="homeScroll">
+        <!-- Hero -->
+        <div class="u-hero">
+          <div class="u-badge">🇨🇮 50+ compagnies partenaires</div>
+          <h1 class="u-h1">Voyagez <em>partout</em> en Côte d'Ivoire</h1>
+          <p class="u-sub">Tickets de bus en ligne · Paiement Mobile Money · QR Code instantané</p>
+          <div class="u-stats">
+            <div class="ustat">
+              <div class="ustat-n">50+</div>
+              <div class="ustat-l">Compagnies</div>
+            </div>
+            <div class="ustat">
+              <div class="ustat-n">200+</div>
+              <div class="ustat-l">Destinations</div>
+            </div>
+            <div class="ustat">
+              <div class="ustat-n">98%</div>
+              <div class="ustat-l">Satisfaction</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recherche -->
+        <div style="padding:16px 0 20px">
+          <div class="search-card">
+            <div class="search-head">
+              <h3><i data-lucide="search"></i> Trouver un trajet</h3>
+              <div class="stabs">
+                <button class="stab on" onclick="setStab(this)">Aller</button>
+                <button class="stab" onclick="setStab(this)">A/R</button>
+              </div>
+            </div>
+            <div class="search-body">
+              <div class="frow two">
+                <div class="sfield">
+                  <label>Départ</label>
+                  <select id="s-from"><option value="">Ville de départ</option></select>
+                </div>
+                <button class="swap-btn" onclick="swapCities()">⇄</button>
+                <div class="sfield">
+                  <label>Arrivée</label>
+                  <select id="s-to"><option value="">Destination</option></select>
+                </div>
+              </div>
+              <div class="frow half">
+                <div class="sfield">
+                  <label>Date</label>
+                  <input type="date" id="s-date"/>
+                </div>
+              </div>
+              <button class="btn-main" style="margin-top:4px" onclick="searchTrips()">
+                <i data-lucide="search"></i> Rechercher
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Explorer -->
+        <div class="sec-hd"><span class="sec-title">Explorer</span></div>
+        <div class="etabs" id="etabs">
+          <button class="etab on" onclick="setEtab(this,'companies')">
+            <i data-lucide="building"></i> Compagnies
+          </button>
+          <button class="etab" onclick="setEtab(this,'features')">
+            <i data-lucide="zap"></i> Fonctionnalités
+          </button>
+          <button class="etab" onclick="setEtab(this,'how')">
+            <i data-lucide="help-circle"></i> Comment ça marche
+          </button>
+          <button class="etab" onclick="setEtab(this,'payments')">
+            <i data-lucide="credit-card"></i> Paiements
+          </button>
+        </div>
+
+        <!-- Panel: Compagnies -->
+        <div class="panel on" id="panel-companies" style="padding:0 18px">
+          <!-- injecté par JS -->
+        </div>
+
+        <!-- Panel: Fonctionnalités -->
+        <div class="panel" id="panel-features">
+          <div class="feat-grid">
+            <div class="feat-card" onclick="openLocModal()">
+              <div class="feat-icon"><i data-lucide="map-pin"></i></div>
+              <div class="feat-title">Localisation</div>
+              <div class="feat-desc">Gares proches de vous</div>
+            </div>
+            <div class="feat-card" onclick="setEtab(document.querySelectorAll('.etab')[3],'payments')">
+              <div class="feat-icon"><i data-lucide="smartphone"></i></div>
+              <div class="feat-title">Paiement Mobile</div>
+              <div class="feat-desc">Orange Money, MTN, Wave</div>
+            </div>
+            <div class="feat-card" onclick="openModal('qrInfoModal')">
+              <div class="feat-icon"><i data-lucide="scan-line"></i></div>
+              <div class="feat-title">Ticket QR Code</div>
+              <div class="feat-desc">Contenu de votre ticket</div>
+            </div>
+            <div class="feat-card" onclick="openModal('notifSettingsModal')">
+              <div class="feat-icon"><i data-lucide="bell"></i></div>
+              <div class="feat-title">Notifications</div>
+              <div class="feat-desc">Gérez vos alertes</div>
+            </div>
+            <div class="feat-card" onclick="reqAuth(openPayHist)">
+              <div class="feat-icon"><i data-lucide="lock"></i></div>
+              <div class="feat-title">Paiement sécurisé</div>
+              <div class="feat-desc">Historique de paiements</div>
+            </div>
+            <div class="feat-card" onclick="openModal('appModal')">
+              <div class="feat-icon"><i data-lucide="download"></i></div>
+              <div class="feat-title">App mobile</div>
+              <div class="feat-desc">Play Store / App Store</div>
+            </div>
+            <div class="feat-card wide" onclick="openModal('chatModal')">
+              <div class="feat-icon"><i data-lucide="message-circle"></i></div>
+              <div class="feat-title">Support client</div>
+              <div class="feat-desc">WhatsApp ou tchat avec un conseiller</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel: Comment ça marche -->
+        <div class="panel" id="panel-how">
+          <div class="steps-wrap">
+            <div class="step-row">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-t">Cherchez votre trajet</div>
+                <p class="step-d">Sélectionnez votre ville de départ, destination et date. Comparez horaires et tarifs.</p>
+              </div>
+            </div>
+            <div class="step-row">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-t">Choisissez et payez</div>
+                <p class="step-d">Sélectionnez votre siège et payez avec Orange Money, MTN MoMo ou Wave.</p>
+              </div>
+            </div>
+            <div class="step-row">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-t">Recevez votre ticket QR</div>
+                <p class="step-d">Votre ticket arrive instantanément par email. Présentez le QR Code à l'embarquement.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel: Paiements -->
+        <div class="panel" id="panel-payments" style="padding:0 18px">
+          <div class="feat-grid">
+            <div class="pay-card">
+              <div class="pay-logo">
+                <img src="assets/images/Orange.jpg" alt="Orange Money"
+                     style="height:40px;width:40px;border-radius:1px"/>
+              </div>
+              <div>
+                <div class="pay-name">Orange Money</div>
+                <div class="pay-desc">Paiement instantané · 24h/24</div>
+                <div class="pay-status">✓ Disponible</div>
+              </div>
+            </div>
+            <div class="pay-card">
+              <div class="pay-logo">
+                <img src="assets/images/MTN-CI.jpg" alt="MTN MoMo"
+                     style="height:40px;width:40px;border-radius:1px"/>
+              </div>
+              <div>
+                <div class="pay-name">MTN MoMo</div>
+                <div class="pay-desc">Sans frais supplémentaires</div>
+                <div class="pay-status">✓ Disponible</div>
+              </div>
+            </div>
+            <div class="pay-card">
+              <div class="pay-logo">
+                <img src="assets/images/Wave.jpg" alt="Wave"
+                     style="height:40px;width:40px;border-radius:1px"/>
+              </div>
+              <div>
+                <div class="pay-name">Wave</div>
+                <div class="pay-desc">Zéro commission</div>
+                <div class="pay-status">✓ Disponible</div>
+              </div>
+            </div>
+            <div class="pay-card">
+              <div class="pay-logo">
+                <img src="assets/images/Visa.jpeg" alt="Carte bancaire"
+                     style="height:40px;width:40px;border-radius:1px"/>
+              </div>
+              <div>
+                <div class="pay-name">Carte bancaire</div>
+                <div class="pay-desc">Visa · Mastercard · SSL</div>
+                <div class="pay-status">✓ Disponible</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:20px"></div>
+      </div><!-- /homeScroll -->
+
+      <!-- Bottom nav -->
+      <div class="bottom-nav">
+        <div class="bnav-item on" id="bn-home" onclick="uNav('home')">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span>Accueil</span>
+          <div class="bnav-dot"></div>
+        </div>
+        <div class="bnav-item" id="bn-search" onclick="openModal('quickSearchModal')">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span>Trajets</span>
+          <div class="bnav-dot"></div>
+        </div>
+        <div class="bnav-item" id="bn-pay" onclick="reqAuth(openPayHist)">
+          <svg viewBox="0 0 24 24">
+            <rect x="1" y="4" width="22" height="16" rx="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+          <span>Paiements</span>
+          <div class="bnav-dot"></div>
+        </div>
+        <div class="bnav-item" id="bn-account" onclick="uNav('account')">
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>Compte</span>
+          <div class="bnav-dot"></div>
+        </div>
+      </div>
+    </div><!-- /scr-uHome -->
+
+    <!-- ═══════════════════════════════════════
+     ██ SCREEN ACCOUNT
+    ═══════════════════════════════════════ -->
+    <div class="scr" id="scr-uAccount">
+      <div class="topbar">
+        <div class="tbar-logo">
+          <div class="tbar-logo-icon">
+            <img src="assets/images/DesirCompagny.jpg" alt="DésirCompagny"
+                 style="height:40px;width:40px;border-radius:1px"/>
+          </div>
+          <span class="tbar-logo-name">DesirCompagny</span>
+        </div>
+        <div class="tbar-right">
+          <button class="tbar-btn" onclick="openDrawer()">☰</button>
+        </div>
+      </div>
+
+      <!-- Guest -->
+      <div class="scroll" id="accGuestWrap">
+        <div class="guest-state">
+          <div class="guest-icon"><i data-lucide="user"></i></div>
+          <div class="guest-h">Mon compte</div>
+          <p class="guest-p">Connectez-vous pour accéder à vos réservations et votre historique.</p>
+          <button class="btn-main" style="max-width:280px;margin-top:8px"
+                  onclick="openAuth('login')">Se connecter</button>
+          <div style="font-size:14px;color:var(--ink5);margin-top:12px">
+            Pas de compte ?
+            <a onclick="openAuth('register')"
+               style="color:var(--or);font-weight:600;cursor:pointer">S'inscrire</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logged -->
+      <div id="accLoggedWrap" style="display:none;flex-direction:column;height:100%">
+        <div style="padding:20px 18px;background:var(--or);display:flex;align-items:center;gap:14px">
+          <div id="profAv" style="width:52px;height:52px;border-radius:16px;
+               background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;
+               font-family:'arial',sans-serif;font-size:20px;font-weight:800;color:white">GR</div>
+          <div>
+            <div id="profName" style="font-family:'arial',sans-serif;font-size:17px;font-weight:800;color:white">
+              Nom Prénom
+            </div>
+            <div id="profEmail" style="font-size:13px;color:rgba(255,255,255,.8)">email@example.com</div>
+          </div>
+        </div>
+
+        <div class="acc-tabs">
+          <div class="acc-tab on" id="at-prof" onclick="setAccTab('prof')">Profil</div>
+          <div class="acc-tab" id="at-bk" onclick="setAccTab('bk')">Réservations</div>
+        </div>
+
+        <div class="scroll">
+          <!-- Profil -->
+          <div id="accProfPanel" style="padding:18px">
+            <div class="pfield"><label>Prénom</label><input id="pf-fn" type="text"/></div>
+            <div class="pfield"><label>Nom</label><input id="pf-ln" type="text"/></div>
+            <div class="pfield"><label>Téléphone</label><input id="pf-tel" type="tel"/></div>
+            <div class="pfield"><label>Email</label><input id="pf-email" type="email"/></div>
+            <div class="pfield"><label>Ville</label><input id="pf-city" type="text"/></div>
+            <button class="btn-main" onclick="saveProfile()">
+              <i data-lucide="save"></i> Enregistrer
+            </button>
+            <button style="width:100%;margin-top:10px;padding:12px;border-radius:12px;
+                           background:var(--red-bg);color:var(--red);font-size:14px;
+                           font-weight:700;border:1.5px solid #fca5a5"
+                    onclick="uLogout()">Se déconnecter</button>
+          </div>
+
+          <!-- Réservations -->
+          <div id="accBkPanel" style="display:none;padding:18px">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+              <div style="font-family:'arial',sans-serif;font-size:16px;font-weight:800">
+                Mes réservations
+              </div>
+              <span class="chip chip-or" id="bk-count">0 réservation</span>
+            </div>
+            <div id="bkList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom nav -->
+      <div class="bottom-nav">
+        <div class="bnav-item" id="bn2-home" onclick="uNav('home')">
+          <svg viewBox="0 0 24 24">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          <span>Accueil</span>
+          <div class="bnav-dot"></div>
+        </div>
+        <div class="bnav-item" id="bn2-search" onclick="openModal('quickSearchModal')">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span>Trajets</span>
+          <div class="bnav-dot"></div>
+        </div>
+        <div class="bnav-item" id="bn2-pay" onclick="reqAuth(openPayHist)">
+          <svg viewBox="0 0 24 24">
+            <rect x="1" y="4" width="22" height="16" rx="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+          <span>Paiements</span>
+          <div class="bnav-dot"></div>
+        </div>
+        <div class="bnav-item on" id="bn2-account" onclick="uNav('account')">
+          <svg viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+          <span>Compte</span>
+          <div class="bnav-dot"></div>
+        </div>
+      </div>
+    </div><!-- /scr-uAccount -->
+
+    <!-- ═══════════════════════════════════════
+     MODALS VOYAGEUR
+    ═══════════════════════════════════════ -->
+
+    <!-- Résultats recherche -->
+    <div class="modal-wrap" id="resultsModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div>
+            <div class="modal-title" id="resTit">Résultats</div>
+            <div style="font-size:12px;color:var(--ink5)" id="resSub"></div>
+          </div>
+          <button class="modal-close" onclick="closeModal('resultsModal')">✕</button>
+        </div>
+        <div class="modal-body" id="resBody"></div>
+      </div>
+    </div>
+
+    <!-- Trajets compagnie -->
+    <div class="modal-wrap" id="coTrajetModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div>
+            <div class="modal-title" id="coTrTit">Trajets disponibles</div>
+            <div style="font-size:12px;color:var(--ink5)" id="coTrSub"></div>
+          </div>
+          <button class="modal-close" onclick="closeModal('coTrajetModal')">✕</button>
+        </div>
+        <div class="modal-body" id="coTrBody"></div>
+      </div>
+    </div>
+
+    <!-- Réservation -->
+    <div class="modal-wrap" id="bookModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title"><i data-lucide="ticket-minus" style="color:var(--or)"></i> Réserver</div>
+          <button class="modal-close" onclick="closeModal('bookModal')">✕</button>
+        </div>
+        <div class="modal-body" id="bookBody"></div>
+      </div>
+    </div>
+
+    <!-- Plan de siège -->
+    <div class="modal-wrap" id="seatPlanModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div>
+            <div class="modal-title">
+              <i data-lucide="armchair" style="color:var(--or)"></i> Choisir votre siège
+            </div>
+            <div style="font-size:12px;color:var(--ink5)" id="seatPlanSub"></div>
+          </div>
+          <button class="modal-close" onclick="closeModal('seatPlanModal')">✕</button>
+        </div>
+        <div class="modal-body">
+          <div style="background:var(--bg2);border-radius:var(--r2);padding:10px;
+                      text-align:center;margin-bottom:16px;font-size:13px;
+                      font-weight:600;color:var(--ink3)">Avant du bus</div>
+          <div class="seat-plan" id="seatPlanGrid"></div>
+          <div class="seat-legend">
+            <div class="legend-item">
+              <div class="legend-box" style="background:var(--white)"></div>Libre
+            </div>
+            <div class="legend-item">
+              <div class="legend-box" style="background:var(--or);border-color:var(--or)"></div>Sélectionné
+            </div>
+            <div class="legend-item">
+              <div class="legend-box" style="background:var(--bg2);border-color:var(--border)"></div>Occupé
+            </div>
+          </div>
+          <div style="margin-top:14px;padding:10px 14px;background:var(--or3);
+                      border-radius:var(--r2);border:1px solid var(--or4);
+                      font-size:13px;font-weight:600;color:var(--or2)"
+               id="seatSelectedLabel">Aucun siège sélectionné</div>
+          <button class="btn-main" style="margin-top:12px" onclick="confirmSeatPlan()">
+            Confirmer ce siège →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paiement -->
+    <div class="modal-wrap" id="payModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title"><i data-lucide="touchpad" style="color:var(--or)"></i> Paiement</div>
+          <button class="modal-close" onclick="closeModal('payModal')">✕</button>
+        </div>
+        <div class="modal-body" id="payBody"></div>
+      </div>
+    </div>
+
+    <!-- Ticket -->
+    <div class="modal-wrap" id="ticketModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title"><i data-lucide="ticket-minus" style="color:var(--or)"></i> Votre ticket</div>
+          <button class="modal-close" onclick="closeModal('ticketModal')">✕</button>
+        </div>
+        <div class="modal-body" id="ticketBody"></div>
+      </div>
+    </div>
+
+    <!-- Annulation -->
+    <div class="modal-wrap" id="cancelBkModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title">
+            <i data-lucide="x" style="color:var(--red)"></i> Annuler la réservation
+          </div>
+          <button class="modal-close" onclick="closeModal('cancelBkModal')">✕</button>
+        </div>
+        <div class="modal-body">
+          <div style="background:var(--red-bg);border-radius:var(--r);padding:14px;
+                      margin-bottom:16px;border:1px solid #fca5a5">
+            <div style="font-weight:700;font-size:14px;color:var(--red);margin-bottom:4px">
+              ⚠️ Attention
+            </div>
+            <p style="font-size:13px;color:var(--red);line-height:1.6">
+              L'annulation entraîne un remboursement de 80% du montant payé.
+            </p>
+          </div>
+          <div id="cancelBkInfo"
+               style="background:var(--bg2);border-radius:var(--r);padding:14px;margin-bottom:16px"></div>
+          <div style="font-size:13px;color:var(--ink4);margin-bottom:14px">Motif d'annulation</div>
+          <select id="cancelReason"
+                  style="width:100%;border:1.5px solid var(--border2);border-radius:10px;
+                         padding:11px 13px;font-size:14px;background:var(--bg);margin-bottom:16px">
+            <option>Changement de programme</option>
+            <option>Problème personnel</option>
+            <option>Erreur de réservation</option>
+            <option>Maladie</option>
+            <option>Autre</option>
+          </select>
+          <button style="width:100%;background:var(--red);color:white;border-radius:12px;
+                         padding:13px;font-size:15px;font-weight:700;margin-bottom:8px"
+                  onclick="confirmCancel()">Confirmer l'annulation</button>
+          <button style="width:100%;background:var(--bg2);color:var(--ink3);border-radius:12px;
+                         padding:12px;font-size:14px;font-weight:600;
+                         border:1.5px solid var(--border2)"
+                  onclick="closeModal('cancelBkModal')">Conserver ma réservation</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Avis -->
+    <div class="modal-wrap" id="ratingModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title">
+            <i data-lucide="star" style="color:var(--or)"></i> Donner un avis
+          </div>
+          <button class="modal-close" onclick="closeModal('ratingModal')">✕</button>
+        </div>
+        <div class="modal-body" style="text-align:center">
+          <div style="font-size:14px;color:var(--ink4);margin-bottom:16px" id="ratingTripInfo"></div>
+          <div style="font-size:15px;font-weight:700;color:var(--ink2);margin-bottom:10px">
+            Comment s'est passé votre voyage ?
+          </div>
+          <div class="stars" style="justify-content:center" id="starsRow">
+            <span class="star" onclick="rateStar(1)">☆</span>
+            <span class="star" onclick="rateStar(2)">☆</span>
+            <span class="star" onclick="rateStar(3)">☆</span>
+            <span class="star" onclick="rateStar(4)">☆</span>
+            <span class="star" onclick="rateStar(5)">☆</span>
+          </div>
+          <div style="font-size:13px;color:var(--or);font-weight:600;margin-bottom:16px"
+               id="ratingLabel">Touchez une étoile</div>
+          <textarea id="ratingComment" placeholder="Commentaire (optionnel)..."
+                    style="width:100%;border:1.5px solid var(--border2);border-radius:11px;
+                           padding:12px 14px;font-size:14px;background:var(--bg);
+                           resize:none;min-height:80px;margin-bottom:14px"></textarea>
+          <button class="btn-main" onclick="submitRating()">Envoyer mon avis</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suivi trajet -->
+    <div class="modal-wrap" id="trajetTimelineModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div>
+            <div class="modal-title" id="ttTit">Suivi du trajet</div>
+            <div style="font-size:12px;color:var(--ink5)" id="ttSub"></div>
+          </div>
+          <button class="modal-close" onclick="closeModal('trajetTimelineModal')">✕</button>
+        </div>
+        <div class="modal-body" id="ttBody"></div>
+      </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="modal-wrap" id="notifModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title"><i data-lucide="bell" style="color:var(--or)"></i> Notifications</div>
+          <button class="modal-close" onclick="closeModal('notifModal')">✕</button>
+        </div>
+        <div class="modal-body" id="notifBody">
+          <div class="empty">
+            <div class="ei"><i data-lucide="bell" style="color:var(--or)"></i></div>
+            <p>Aucune notification pour l'instant.</p>
+          </div>
+        </div>
+        <div style="padding:12px 18px;border-top:1px solid var(--border)">
+          <button class="btn-main" onclick="markNotifsRead();closeModal('notifModal')">
+            Tout marquer comme lu
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paramètres notifications -->
+    <div class="modal-wrap" id="notifSettingsModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title">
+            <i data-lucide="settings"></i> Gérer les alertes
+          </div>
+          <button class="modal-close" onclick="closeModal('notifSettingsModal')">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="set-row">
+            <div>
+              <div class="set-row-lbl">Rappel de départ</div>
+              <div class="set-row-sub">2h avant votre départ</div>
+            </div>
+            <label class="toggle-sw">
+              <input type="checkbox" checked/><div class="toggle-track"></div>
+            </label>
+          </div>
+          <div class="set-row">
+            <div>
+              <div class="set-row-lbl">Confirmation réservation</div>
+              <div class="set-row-sub">À chaque réservation réussie</div>
+            </div>
+            <label class="toggle-sw">
+              <input type="checkbox" checked/><div class="toggle-track"></div>
+            </label>
+          </div>
+          <div class="set-row">
+            <div>
+              <div class="set-row-lbl">Promotions & offres</div>
+              <div class="set-row-sub">Réductions et nouveaux trajets</div>
+            </div>
+            <label class="toggle-sw">
+              <input type="checkbox"/><div class="toggle-track"></div>
+            </label>
+          </div>
+          <button class="btn-main" style="margin-top:18px"
+                  onclick="closeModal('notifSettingsModal');toast('Préférences enregistrées ✓','var(--green)')">
+            Enregistrer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Localisation -->
+    <div class="modal-wrap" id="locModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div>
+            <div class="modal-title">
+              <i data-lucide="map-pin" style="color:var(--or)"></i> Gares proches
+            </div>
+            <div style="font-size:12px;color:var(--ink5)" id="locStatus">
+              Activation de la localisation...
+            </div>
+          </div>
+          <button class="modal-close" onclick="closeModal('locModal')">✕</button>
+        </div>
+        <div class="modal-body">
+          <div id="locMapContainer"
+               style="margin-bottom:14px;border-radius:var(--r);overflow:hidden">
+            <div style="width:100%;height:180px;background:var(--bg2);border-radius:var(--r);
+                        display:flex;align-items:center;justify-content:center;font-size:32px">
+              🗺️
+            </div>
+          </div>
+          <div id="nearbyList">
+            <p style="text-align:center;color:var(--ink5);padding:20px">Chargement...</p>
+          </div>
+          <button class="btn-main" style="margin-top:12px" onclick="loadNearbyStations()">
+            <i data-lucide="rotate-cw" style="color:var(--white)"></i> Actualiser
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- QR Info -->
+    <div class="modal-wrap" id="qrInfoModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title">
+            <i data-lucide="scan-line" style="color:var(--or)"></i> Contenu du QR Code
+          </div>
+          <button class="modal-close" onclick="closeModal('qrInfoModal')">✕</button>
+        </div>
+        <div class="modal-body">
+          <div style="text-align:center;margin-bottom:18px">
+            <div class="qr-box" id="qrSample" style="margin:0 auto 10px"></div>
+            <p style="font-size:12px;color:var(--ink5)">Exemple de QR Code généré après réservation</p>
+          </div>
+          <p style="font-size:14px;font-weight:600;margin-bottom:12px">Votre QR Code contient :</p>
+          <div class="qr-detail">
+            <div class="qr-d-ico"><i data-lucide="hash" style="color:var(--or)"></i></div>
+            <div><div class="qr-d-lbl">Référence</div><div class="qr-d-val">Numéro de réservation unique</div></div>
+          </div>
+          <div class="qr-detail">
+            <div class="qr-d-ico"><i data-lucide="map-pin" style="color:var(--or)"></i></div>
+            <div><div class="qr-d-lbl">Trajet</div><div class="qr-d-val">Départ → Destination</div></div>
+          </div>
+          <div class="qr-detail">
+            <div class="qr-d-ico"><i data-lucide="bus" style="color:var(--or)"></i></div>
+            <div><div class="qr-d-lbl">Compagnie & Bus</div><div class="qr-d-val">Nom + immatriculation</div></div>
+          </div>
+          <div class="qr-detail">
+            <div class="qr-d-ico"><i data-lucide="clock" style="color:var(--or)"></i></div>
+            <div><div class="qr-d-lbl">Date & Heure</div><div class="qr-d-val">Heure exacte de départ</div></div>
+          </div>
+          <div class="qr-detail">
+            <div class="qr-d-ico"><i data-lucide="user" style="color:var(--or)"></i></div>
+            <div><div class="qr-d-lbl">Passager</div><div class="qr-d-val">Nom complet du voyageur</div></div>
+          </div>
+          <div class="qr-detail">
+            <div class="qr-d-ico"><i data-lucide="dollar-sign" style="color:var(--or)"></i></div>
+            <div><div class="qr-d-lbl">Paiement</div><div class="qr-d-val">Montant FCFA + mode de paiement</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App download -->
+    <div class="modal-wrap" id="appModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title">
+            <i data-lucide="smartphone" style="color:var(--or)"></i> Application mobile
+          </div>
+          <button class="modal-close" onclick="closeModal('appModal')">✕</button>
+        </div>
+        <div class="modal-body" style="text-align:center">
+          <img src="assets/images/DesirCompagny.jpg" alt="iVoyage"
+               style="width:80px;height:80px;border-radius:20px;margin:0 auto 16px;object-fit:cover"/>
+          <div style="font-family:'arial',sans-serif;font-size:19px;font-weight:800;margin-bottom:8px">
+            DesirCompagny Mobile
+          </div>
+          <p style="font-size:14px;color:var(--ink5);margin-bottom:24px;line-height:1.6">
+            Notifications push, ticket hors-ligne, réservation ultra-rapide.
+          </p>
+
+<!-- Lien Google Play Store — remplace YOUR_APP_ID par ton vrai ID -->
+              <a href="https://play.google.com/store/apps/details?id=com.desircompagny.ivoyage" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;
+                width:100%;background:var(--white);color:var(--or);border-radius:13px;
+                padding:10px;font-size:14px;font-weight:700;margin-bottom:10px;
+                text-decoration:none;">
+                <img src="assets/images/play_store.png" style="width:50%;height:auto" /></a>
+
+            <!-- Lien App Store — remplace YOUR_APP_ID par ton vrai ID -->
+            <a href="https://apps.apple.com/app/desircompagny/idYOUR_APP_ID" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:10px;
+              width:100%;background:var(--white);color:var(--or);border-radius:13px;
+              padding:10px;font-size:14px;font-weight:700;
+              text-decoration:none;">
+              <img src="assets/images/app_store.png" alt="App Store" style="width:45%;height:auto;" /></a>
+
+            <p style="font-size:11px;color:var(--ink5);margin-top:16px">
+              Version 1.0.0 · Gratuit · Français<br />
+              <span style="color:var(--or)"> Application en cours de publication</span>
+            </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Support chat -->
+    <div class="modal-wrap" id="chatModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div>
+            <div class="modal-title"> <i data-lucide="message-square-more" style="color:var(--or)"></i> Support client</div>
+            <div style="font-size:12px;color:var(--green)">● En ligne · Répond en &lt;5 min</div>
+          </div>
+          <button class="modal-close" onclick="closeModal('chatModal')">✕</button>
+        </div>
+        <div class="modal-body">
+          <div style="display:flex;gap:8px;margin-bottom:14px">
+            <button onclick="window.open('https://wa.me/2250142689978','_blank')"
+                    style="flex:1;padding:10px;border-radius:10px;background:var(--white);
+                           color:var(--green);font-size:13px;font-weight:700;
+                           border:1px solid var(--green);display:flex;
+                           align-items:center;justify-content:center;gap:6px">
+              <img src="assets/images/Whatsapp.jpg" alt="WhatsApp"
+                   style="width:24px;height:24px;border-radius:4px"/>
+              WhatsApp
+            </button>
+            <button style="flex:1;padding:10px;border-radius:10px;background:var(--white);
+                           color:var(--or);font-size:13px;font-weight:700;
+                           border:1px solid var(--or4)">
+              <i data-lucide="message-square-more" style="color:var(--or)"></i> Tchat
+            </button>
+          </div>
+          <div class="chat-msgs" id="chatMsgs">
+            <div class="bubble bot">Bonjour ! Je suis l'assistant iVoyage de DesirCompagny. Comment puis-je vous aider ?</div>
+            <div class="bubble bot">Posez-moi vos questions sur les réservations, remboursements ou compagnies.</div>
+          </div>
+          <div class="chat-inp-row">
+            <input class="chat-inp" id="chatInp" type="text"
+                   placeholder="Écrivez votre message..."
+                   onkeydown="if(event.key==='Enter')sendChat()"/>
+            <button class="chat-send" onclick="sendChat()">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historique paiements -->
+    <div class="modal-wrap" id="payHistModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title">
+            <i data-lucide="credit-card" style="color:var(--or)"></i> Historique paiements
+          </div>
+          <button class="modal-close" onclick="closeModal('payHistModal')">✕</button>
+        </div>
+        <div class="modal-body" id="payHistBody"></div>
+      </div>
+    </div>
+
+    <!-- Recherche rapide -->
+    <div class="modal-wrap" id="quickSearchModal">
+      <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-hd">
+          <div class="modal-title">
+            <i data-lucide="search" style="color:var(--or)"></i> Recherche rapide
+          </div>
+          <button class="modal-close" onclick="closeModal('quickSearchModal')">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="sfield" style="margin-bottom:10px">
+            <label>Départ</label>
+            <select id="qs-from"><option value="">Ville de départ</option></select>
+          </div>
+          <div class="sfield" style="margin-bottom:10px">
+            <label>Destination</label>
+            <select id="qs-to"><option value="">Destination</option></select>
+          </div>
+          <div class="sfield" style="margin-bottom:16px">
+            <label>Date</label>
+            <input type="date" id="qs-date"/>
+          </div>
+          <button class="btn-main" onclick="quickSearch()">Rechercher</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast"></div>
+
+  </div><!-- /phone -->
+</div><!-- /app -->
+
+<!-- Interface desktop voyageur -->
+<div id="ui-user" style="display:none;width:100%;height:100vh">
+  <!-- sidebar + main-content inchangés -->
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/user.js"></script>
+<script src="assets/js/bookings.js"></script>
+<script src="assets/js/payments.js"></script>
+
+<script>lucide.createIcons();</script>
+</body>
+</html

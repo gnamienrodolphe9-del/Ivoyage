@@ -1,0 +1,1661 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>DesirCompagny Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <link rel="stylesheet" href="../assets/css/main.css"/>
+  <link rel="stylesheet" href="../assets/css/company.css"/>
+  <link rel="stylesheet" href="company-desktop.css"/>
+</head>
+<body>
+
+<!-- ══ LOGIN PAGE ══ -->
+<div id="loginPage" style="
+  position:fixed;inset:0;
+  background:linear-gradient(135deg,#1c1917,#292524);
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;
+">
+  <div style="
+    background:white;border-radius:24px;padding:40px;
+    width:100%;max-width:420px;box-shadow:0 32px 80px rgba(0,0,0,.4);
+  ">
+    <div style="text-align:center;margin-bottom:32px">
+      <div style="
+        width: 80px;height:auto;background:#f97316;border-radius:18px;
+        display:flex;align-items:center;justify-content:center;
+        margin:0 auto 16px;
+      ">
+        <img src="assets/images/DesirCompagny.jpg" alt="ivoyage" style="width: 80px; height: auto; border-radius: 10px;">
+      </div>
+      <div style="font-family:'arial',sans-serif;font-size:24px;font-weight:800;margin-bottom:4px">
+        DesirCompagny <span style="color:#f97316">Pro</span>
+      </div>
+      <div style="font-size:14px;color:#78716c">
+        Connectez-vous à votre espace compagnie
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <label style="font-size:12px;font-weight:600;color:#44403c;display:block;margin-bottom:6px">
+        Email professionnel
+      </label>
+      <input id="co-email" type="email" placeholder="admin@macompagnie.ci"
+             style="width:100%;border:1.5px solid #d6d3d1;border-radius:12px;
+                    padding:13px 16px;font-size:15px;background:#fafaf9;
+                    font-family:arial;outline:none;"/>
+    </div>
+
+    <div style="margin-bottom:20px">
+      <label style="font-size:12px;font-weight:600;color:#44403c;display:block;margin-bottom:6px">
+        Mot de passe
+      </label>
+      <input id="co-password" type="password" placeholder="••••••••"
+             style="width:100%;border:1.5px solid #d6d3d1;border-radius:12px;
+                    padding:13px 16px;font-size:15px;background:#fafaf9;
+                    font-family:arial;outline:none;"/>
+    </div>
+
+    <div id="loginError" style="
+      display:none;background:#fee2e2;color:#dc2626;
+      border-radius:10px;padding:12px;font-size:13px;
+      margin-bottom:16px;border:1px solid #fca5a5;
+    "></div>
+
+    <button onclick="doLogin()" style="
+      width:100%;background:#f97316;color:white;
+      border-radius:12px;padding:14px;font-size:15px;
+      font-weight:700;border:none;cursor:pointer;
+      font-family:arial;
+    " id="loginBtn">
+      Se connecter →
+    </button>
+
+    <div style="text-align:center;margin-top:16px;font-size:13px;color:#78716c">
+      Pas encore inscrit ?
+      <a href="register.html" style="color:#f97316;font-weight:600">
+        Créer un compte compagnie
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══ -->
+<div id="dashboardPage" style="display:none;width:100vw;height:100vh;">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" style="
+    width:240px;height:100vh;position:fixed;left:0;top:0;
+    background:#f97316;display:flex;flex-direction:column;
+    z-index:50;
+  "> 
+    
+    <!-- Logo -->
+<div style="padding:20px;border-bottom:1px solid rgba(255,255,255,.15)">
+
+  <!-- Logo + nom compagnie bien visible -->
+  <div style="display:flex;align-items:center;gap:12px">
+    <div id="sidebarLogo" style="
+      width:44px;height:44px;border-radius:12px;
+      background:rgba(255,255,255,.25);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'arial',sans-serif;font-weight:800;
+      font-size:16px;color:white;overflow:hidden;flex-shrink:0;
+    ">
+      <span id="sidebarLogoInitial">C</span>
+      <img id="sidebarLogoImg" src="" alt=""
+           style="display:none;width:100%;height:100%;object-fit:cover"/>
+    </div>
+    <div>
+      <div id="coNameSidebar" style="
+        font-family:'arial',sans-serif;font-weight:800;
+        font-size:17px;color:white;line-height:1.2;
+      ">—</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.6);margin-top:2px">
+        Tableau de bord
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center; justify-content: center;margin-bottom:12px">
+    
+    <span style="font-size:13px;color:rgba(255,255,255,.7);font-weight:500; display: flex; justify-content: center; padding: 5px;">
+        DesirCompagny Pro
+    </span>
+  </div>
+</div>
+
+    <!-- Navigation -->
+    <nav style="flex:1;padding:16px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto">
+      <a class="nav-link active" onclick="showPanel('overview',this)">
+        <i data-lucide="layout-dashboard"></i> Vue d'ensemble
+      </a>
+      <a class="nav-link" onclick="showPanel('trajets',this)">
+        <i data-lucide="route"></i> Trajets
+      </a>
+      <a class="nav-link" onclick="showPanel('gares',this)">
+        <i data-lucide="map-pin"></i> Gares
+      </a>
+      <a class="nav-link" onclick="showPanel('buses',this)">
+        <i data-lucide="bus"></i> Flotte
+      </a>
+      <a class="nav-link" onclick="showPanel('bookings',this)">
+        <i data-lucide="ticket"></i> Réservations
+      </a>
+      <a class="nav-link" onclick="showPanel('stats',this)">
+        <i data-lucide="bar-chart-2"></i> Statistiques
+      </a>
+      <div style="height:1px;background:rgba(255,255,255,.15);margin:8px 0"></div>
+      <a class="nav-link" onclick="showPanel('settings',this)">
+        <i data-lucide="settings"></i> Paramètres
+      </a>
+    </nav>
+
+    <!-- Footer -->
+    <div style="padding:12px;border-top:1px solid rgba(255,255,255,.15)">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;margin-bottom:8px">
+        <div id="adminAvatar" style="
+          width:34px;height:34px;border-radius:9px;
+          background:rgba(255,255,255,.2);
+          display:flex;align-items:center;justify-content:center;
+          font-family:'arial',sans-serif;font-weight:800;font-size:17px;color:white;
+        ">A</div>
+        <div>
+          <div id="adminName" style="font-size:13px;font-weight:600;color:white"> <i data-lucide="user-round-check"></i>Admin</div>
+          <div id="adminEmail" style="font-size:11px;color:rgba(255,255,255,.6)">—</div>
+        </div>
+      </div>
+      <a class="nav-link" onclick="doLogout()" style="color:rgba(255,255,255,.6)">
+        <i data-lucide="log-out"></i> Déconnexion
+      </a>
+    </div>
+  </aside>
+
+  <!-- CONTENU PRINCIPAL -->
+  <main style="margin-left:240px;height:100vh;overflow-y:auto;background:#fafaf9;">
+
+    <!-- Topbar -->
+    <div style="
+      height:64px;background:white;border-bottom:1px solid #e7e5e4;
+      padding:0 32px;display:flex;align-items:center;
+      justify-content:space-between;position:sticky;top:0;z-index:40;
+    ">
+      <div id="pageTitle" style="font-family:'arial',sans-serif;font-size:20px;font-weight:800">
+        <i data-lucide="layout-dashboard"></i> Vue d'ensemble
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <button id="addBtn" onclick="openAddModal()" style="
+          display:none;background:#f97316;color:white;
+          border-radius:10px;padding:10px 20px;font-size:14px;
+          font-weight:700;border:none;cursor:pointer;
+          display:flex;align-items:center;gap:8px;font-family:arial;
+        ">
+          <i data-lucide="plus" style="width:16px;height:16px"></i>
+          <span id="addBtnLabel">Nouveau</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Contenu pages -->
+    <div style="padding:32px">
+
+      <!-- ══ OVERVIEW ══ -->
+      <div id="panel-overview">
+        <!-- Alerte vérification -->
+        <div id="verificationAlert" style="
+          background:#fef3c7;border:1px solid #fcd34d;
+          border-radius:12px;padding:14px 18px;margin-bottom:24px;
+          display:flex;align-items:center;gap:12px;
+        ">
+          <i data-lucide="clock" style="color:#92400e;width:20px;height:20px;flex-shrink:0"></i>
+          <p style="font-size:13px;color:#92400e">
+            Compte en cours de <strong>vérification</strong> par DésirCompagny. Actif sous 48h.
+          </p>
+        </div>
+
+        <!-- KPIs -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px">
+          <div style="background:#f97316;border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(249,115,22,.3)">
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+              <i data-lucide="banknote" style="color:white;width:22px;height:22px"></i>
+            </div>
+            <div id="kCA" style="font-family:'arial',sans-serif;font-size:26px;font-weight:800;color:white">0</div>
+            <div style="font-size:13px;color:rgba(255,255,255,.75)">CA mensuel (FCFA)</div>
+          </div>
+          <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;padding:20px">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff7ed;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+              <i data-lucide="ticket" style="color:#f97316;width:22px;height:22px"></i>
+            </div>
+            <div id="kTickets" style="font-family:'arial',sans-serif;font-size:26px;font-weight:800">0</div>
+            <div style="font-size:13px;color:#a8a29e">Tickets vendus</div>
+          </div>
+          <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;padding:20px">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff7ed;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+              <i data-lucide="route" style="color:#f97316;width:22px;height:22px"></i>
+            </div>
+            <div id="kTrips" style="font-family:'arial',sans-serif;font-size:26px;font-weight:800">0</div>
+            <div style="font-size:13px;color:#a8a29e">Trajets actifs</div>
+          </div>
+          <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;padding:20px">
+            <div style="width:44px;height:44px;border-radius:12px;background:#fff7ed;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+              <i data-lucide="bus" style="color:#f97316;width:22px;height:22px"></i>
+            </div>
+            <div id="kBuses" style="font-family:'arial',sans-serif;font-size:26px;font-weight:800">0</div>
+            <div style="font-size:13px;color:#a8a29e">Bus en service</div>
+          </div>
+        </div>
+
+        <!-- Derniers trajets -->
+        <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;overflow:hidden">
+          <div style="padding:18px 24px;border-bottom:1px solid #e7e5e4">
+            <div style="font-family:'arial',sans-serif;font-size:19px;font-weight:800">Derniers trajets</div>
+          </div>
+          <div style="padding:16px" id="overviewTrips">
+            <div style="text-align:center;color:#a8a29e;padding:20px">Aucun trajet</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TRAJETS ══ -->
+      <div id="panel-trajets" style="display:none">
+        <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;overflow:hidden">
+          <div style="padding:18px 24px;border-bottom:1px solid #e7e5e4;display:flex;align-items:center;justify-content:space-between">
+            <div style="font-family:'arial',sans-serif;font-size:16px;font-weight:800"> Mes trajets</div>
+            <div style="display:flex;gap:8px">
+              <button onclick="filterTrajets(this,'all')" class="filter-chip active">Tous</button>
+              <button onclick="filterTrajets(this,'active')" class="filter-chip">Actifs</button>
+              <button onclick="filterTrajets(this,'draft')" class="filter-chip">Brouillons</button>
+            </div>
+          </div>
+          <table style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr style="background:#fafaf9;border-bottom:1px solid #e7e5e4">
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Trajet</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Horaire</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Prix</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Places</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Statut</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="trajetsTbody">
+              <tr><td colspan="6" style="text-align:center;color:#a8a29e;padding:32px">Aucun trajet</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ GARES ══ -->
+      <div id="panel-gares" style="display:none">
+        <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;overflow:hidden">
+          <div style="padding:18px 24px;border-bottom:1px solid #e7e5e4">
+            <div style="font-family:'arial',sans-serif;font-size:16px;font-weight:800">Mes gares</div>
+          </div>
+          <table style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr style="background:#fafaf9;border-bottom:1px solid #e7e5e4">
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Nom</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Ville</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Type</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Capacité</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Statut</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="garesTbody">
+              <tr><td colspan="6" style="text-align:center;color:#a8a29e;padding:32px">Aucune gare</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ FLOTTE ══ -->
+      <div id="panel-buses" style="display:none">
+        <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;overflow:hidden">
+          <div style="padding:18px 24px;border-bottom:1px solid #e7e5e4">
+            <div style="font-family:'arial',sans-serif;font-size:16px;font-weight:800">Ma flotte</div>
+          </div>
+          <table style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr style="background:#fafaf9;border-bottom:1px solid #e7e5e4">
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Immatriculation</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Marque / Modèle</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Année</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Places</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Statut</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="busesTbody">
+              <tr><td colspan="6" style="text-align:center;color:#a8a29e;padding:32px">Aucun bus</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ RÉSERVATIONS ══ -->
+      <div id="panel-bookings" style="display:none">
+        <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;overflow:hidden">
+          <div style="padding:18px 24px;border-bottom:1px solid #e7e5e4">
+            <div style="font-family:'arial*',sans-serif;font-size:16px;font-weight:800">Réservations reçues</div>
+          </div>
+          <table style="width:100%;border-collapse:collapse">
+            <thead>
+              <tr style="background:#fafaf9;border-bottom:1px solid #e7e5e4">
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Référence</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Passager</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Trajet</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Montant</th>
+                <th style="padding:12px 20px;text-align:left;font-size:11px;font-weight:700;color:#a8a29e;text-transform:uppercase">Statut</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsTbody">
+              <tr><td colspan="5" style="text-align:center;color:#a8a29e;padding:32px">Aucune réservation</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ══ STATS ══ -->
+      <div id="panel-stats" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;padding:24px">
+            <div style="font-family:'arial',sans-serif;font-size:16px;font-weight:800;margin-bottom:16px">CAS par mois</div>
+            <div id="statsRevenue"></div>
+          </div>
+          <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;padding:24px">
+            <div style="font-family:'arial',sans-serif;font-size:16px;font-weight:800;margin-bottom:16px">Trajets populaires</div>
+            <div id="statsRoutes"></div>
+          </div>
+        </div>
+      </div>
+
+     <!-- ══ PARAMÈTRES ══ -->
+      <div id="panel-settings" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;padding:24px">
+            <div style="font-family:'arial ',sans-serif;font-size:16px;font-weight:800;margin-bottom:20px">Informations compagnie</div>
+
+            <!-- Logo upload -->
+             <div style="margin-bottom: 20px;">
+              <label style="font-size: 12px; font-weight:600; color: #44403c; display: block; margin-bottom:8px;">
+                Logo de la compagnie
+              </label>
+              <div style="display: flex; align-items: center; gap: 16px;">
+                <div id="logoPreviewBox" style="
+                width: 72px; height: 72px; border-radius:16px;
+                background: #f97316; display: flex; align-items: center;
+                justify-content: center;font-family: 'arial', sans-serif;
+                font-weight: 800; font-size: 22px; color: white;
+                overflow: hidden; flex-shrink: 0;
+                ">
+                <span id="logoInitial">C</span>
+                <img id="logoImg" src="" alt="" style="display: none; width: 100%; height: 100%; object-fit: cover;"/>
+                </div>
+                <div>
+                  <button onclick="document.getElementById('logoFile').click()" style="
+                    padding: 10px 16px; border-radius: 10px; background: #fff7ed;
+                    color: #f97316; font-size: 13px; font-weight: 700;
+                    border: 1.5px solid #fed7aa; cursor: pointer; font-family: 'arial'; 
+                    display: block; margin-bottom: 6px; 
+                    ">
+                    <i data-lucide="camera" style="width: 20px; height: auto; color: #f97316; "></i> Importer un logo
+                  </button>
+                  <div style="font-size: 11px; color: #a8a29e;"> PNG, JPG . Max 2 Mo</div>
+                  <input type="file" id="logoFile" accept="image/*" style="display: none;"
+                  onchange="previewLogo(this)"/>
+
+                </div>
+              </div>
+             </div>
+
+            <div class="co-field" style="margin-bottom:14px">
+              <label style="font-size:12px;font-weight:600;color:#44403c;display:block;margin-bottom:6px">Nom de la compagnie </label>
+              <input id="set-name" type="text" style="width:100%;border:1.5px solid #d6d3d1;border-radius:11px;padding:11px 14px;font-size:14px;background:#fafaf9;font-family:inherit;outline:none"/>
+            </div>
+            <div class="co-field" style="margin-bottom:14px">
+              <label style="font-size:12px;font-weight:600;color:#44403c;display:block;margin-bottom:6px">Slogan</label>
+              <input id="set-slogan" type="text" style="width:100%;border:1.5px solid #d6d3d1;border-radius:11px;padding:11px 14px;font-size:14px;background:#fafaf9;font-family:inherit;outline:none"/>
+            </div>
+            <div co- style="margin-bottom:14px">
+              <label style="font-size:12px;font-weight:600;color:#44403c;display:block;margin-bottom:6px">Email</label>
+              <input id="set-email" type="email" style="width:100%;border:1.5px solid #d6d3d1;border-radius:11px;padding:11px 14px;font-size:14px;background:#fafaf9;font-family:inherit;outline:none"/>
+            </div>
+            <button onclick="saveSettings()" class="co-btn-primary" style="width:100%;background:#f97316;color:white;border-radius:11px;padding:12px;font-size:14px;font-weight:700;border:none;cursor:pointer;font-family:inherit">
+              Enregistrer les modifications
+            </button>
+          </div>
+          <div style="background:white;border:1.5px solid #e7e5e4;border-radius:16px;padding:24px">
+            <div style="font-family:'arial',sans-serif;font-size:16px;font-weight:800;margin-bottom:20px">Couleur de marque</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+              <div class="cswatch" style="background:#f97316" data-c="#f97316" onclick="pickColor(this)"></div>
+              <div class="cswatch" style="background:#2563eb" data-c="#2563eb" onclick="pickColor(this)"></div>
+              <div class="cswatch" style="background:#16a34a" data-c="#16a34a" onclick="pickColor(this)"></div>
+              <div class="cswatch" style="background:#7c3aed" data-c="#7c3aed" onclick="pickColor(this)"></div>
+              <div class="cswatch" style="background:#dc2626" data-c="#dc2626" onclick="pickColor(this)"></div>
+              <div class="cswatch" style="background:#0891b2" data-c="#0891b2" onclick="pickColor(this)"></div>
+            </div>
+            <div style="margin-bottom:16px">
+              <label style="font-size:12px;font-weight:600;color:#44403c;display:block;margin-bottom:6px">Couleur personnalisée</label>
+              <input type="color" id="colorPicker" value="#f97316"
+                     style="width:60px;height:40px;border:none;border-radius:9px;cursor:pointer;padding:2px"
+                     oninput="pickColorCustom(this.value)"/>
+            </div>
+            <div id="colorPreview" style="height:48px;border-radius:12px;background:#f97316;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px">
+              Aperçu de votre interface
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ══ MODAL NOUVEAU TRAJET ══ -->
+<div id="modal-trajet" class="co-modal" style="display:none">
+  <div class="co-modal-box">
+    <div class="co-modal-hd">
+      <div style="font-family:'arial',sans-serif;font-size:17px;font-weight:800"><i data-lucide="route" style="width: 20px; height: auto; color: #f97316; "></i> Nouveau trajet</div>
+      <button onclick="closeModal('modal-trajet')" class="co-modal-close">✕</button>
+    </div>
+    <div class="co-modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="co-field">
+          <label>Ville de départ *</label>
+          <select id="nt-from"><option value="">Choisir</option></select>
+        </div>
+        <div class="co-field">
+          <label>Ville d'arrivée *</label>
+          <select id="nt-to"><option value="">Choisir</option></select>
+        </div>
+        <div class="co-field">
+          <label>Heure départ *</label>
+          <input type="time" id="nt-dep" value="06:00"/>
+        </div>
+        <div class="co-field">
+          <label>Heure arrivée</label>
+          <input type="time" id="nt-arr" value="11:30"/>
+        </div>
+        <div class="co-field">
+          <label>Prix (FCFA) *</label>
+          <input type="number" id="nt-prix" placeholder="3500"/>
+        </div>
+        <div class="co-field">
+          <label>Nombre de places *</label>
+          <input type="number" id="nt-places" placeholder="50"/>
+        </div>
+      </div>
+      <div class="co-field">
+        <label>Bus assigné</label>
+        <select id="nt-bus"><option value="">Sélectionner un bus</option></select>
+      </div>
+      <div class="co-field">
+        <label>Récurrence</label>
+        <select id="nt-rec">
+          <option value="daily">Tous les jours</option>
+          <option value="weekdays">Jours ouvrés</option>
+          <option value="weekends">Week-ends</option>
+        </select>
+      </div>
+      <button onclick="addTrajet()" class="co-btn-primary"><i data-lucide="check" style="width:14px;height:14px"></i> Publier ce trajet</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL NOUVELLE GARE ══ -->
+<div id="modal-gare" class="co-modal" style="display:none">
+  <div class="co-modal-box">
+    <div class="co-modal-hd">
+      <div style="font-family:'arial',sans-serif;font-size:17px;font-weight:800"><i data-lucide="map-pin" style="width: 20px; height: auto; color: #f97316; "></i> Nouvelle gare</div>
+      <button onclick="closeModal('modal-gare')" class="co-modal-close">✕</button>
+    </div>
+    <div class="co-modal-body">
+      <div class="co-field">
+        <label>Nom de la gare *</label>
+        <input type="text" id="ng-name" placeholder="ex: Gare d'Adjamé"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="co-field">
+          <label>Ville *</label>
+          <select id="ng-city"><option value="">Choisir</option></select>
+        </div>
+        <div class="co-field">
+          <label>Pays</label>
+          <input type="text" id="ng-country" value="Côte d'Ivoire"/>
+        </div>
+        <div class="co-field">
+          <label>Type</label>
+          <select id="ng-type">
+            <option value="main">Principale</option>
+            <option value="stop">Arrêt</option>
+            <option value="international">Internationale</option>
+          </select>
+        </div>
+        <div class="co-field">
+          <label>Capacité / jour</label>
+          <input type="number" id="ng-cap" placeholder="500"/>
+        </div>
+      </div>
+      <div class="co-field">
+        <label>Adresse</label>
+        <input type="text" id="ng-addr" placeholder="Quartier, avenue..."/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="co-field">
+          <label>Responsable</label>
+          <input type="text" id="ng-manager" placeholder="Nom du responsable"/>
+        </div>
+        <div class="co-field">
+          <label>Téléphone</label>
+          <input type="tel" id="ng-tel" placeholder="+225 07 00 00 00 00"/>
+        </div>
+      </div>
+      <button onclick="addGare()" class="co-btn-primary"><i data-lucide="check" style="width:14px;height:14px"></i> Enregistrer la gare</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL NOUVEAU BUS ══ -->
+<div id="modal-bus" class="co-modal" style="display:none">
+  <div class="co-modal-box">
+    <div class="co-modal-hd">
+      <div style="font-family:'arial',sans-serif;font-size:17px;font-weight:800"><i data-lucide="bus" style="width: 20px; height: auto; color: #f97316; "></i> Nouveau bus</div>
+      <button onclick="closeModal('modal-bus')" class="co-modal-close">✕</button>
+    </div>
+    <div class="co-modal-body">
+      <div class="co-field">
+        <label>Immatriculation *</label>
+        <input type="text" id="nb-immat" placeholder="ex: AB-1234-CI"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="co-field">
+          <label>Marque</label>
+          <input type="text" id="nb-brand" placeholder="Mercedes"/>
+        </div>
+        <div class="co-field">
+          <label>Modèle</label>
+          <input type="text" id="nb-model" placeholder="Sprinter"/>
+        </div>
+        <div class="co-field">
+          <label>Année</label>
+          <input type="number" id="nb-year" placeholder="2022"/>
+        </div>
+        <div class="co-field">
+          <label>Capacité (places) *</label>
+          <input type="number" id="nb-cap" placeholder="50"/>
+        </div>
+      </div>
+      <div class="co-field">
+        <label>Statut</label>
+        <select id="nb-stat">
+          <option value="active">En service</option>
+          <option value="maintenance">En maintenance</option>
+          <option value="reserve">En réserve</option>
+        </select>
+      </div>
+      <div class="co-field">
+        <label>Dernière révision</label>
+        <input type="date" id="nb-rev"/>
+      </div>
+      <div class="co-field">
+        <label>Équipements</label>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:normal">
+            <input type="checkbox" id="eq-ac" style="accent-color:#f97316"/> Climatisation
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:normal">
+            <input type="checkbox" id="eq-wifi" style="accent-color:#f97316"/> WiFi à bord
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:normal">
+            <input type="checkbox" id="eq-usb" style="accent-color:#f97316"/> Prises USB
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:normal">
+            <input type="checkbox" id="eq-toilet" style="accent-color:#f97316"/> Toilettes
+          </label>
+        </div>
+      </div>
+      <button onclick="addBus()" class="co-btn-primary"><i data-lucide="check" style="width:14px;height:14px"></i> Ajouter ce bus</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div id="toast" style="
+  position:fixed;bottom:30px;left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:#1c1917;color:white;
+  padding:10px 20px;border-radius:100px;
+  font-size:13px;font-weight:600;
+  opacity:0;transition:all .35s;
+  pointer-events:none;z-index:9999;
+  white-space:nowrap;
+"></div>
+
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'arial',sans-serif; color:#0c0a09; overflow:hidden; }
+button, input, select { font-family:arial; outline:none; border:none; }
+button { cursor:pointer; }
+
+.nav-link {
+  display:flex; align-items:center; gap:12px;
+  padding:11px 14px; border-radius:12px;
+  font-size:14px; font-weight:500;
+  color:rgba(255,255,255,.7);
+  cursor:pointer; transition:all .2s;
+  text-decoration:none;
+}
+.nav-link:hover, .nav-link.active {
+  background:rgba(255,255,255,.2);
+  color:white;
+  font-weight:600;
+}
+.nav-link svg { width:18px; height:18px; flex-shrink:0; }
+
+.co-modal {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.co-modal-box {
+  background:white; border-radius:20px;
+  width:100%; max-width:560px;
+  max-height:85vh; overflow-y:auto;
+  box-shadow:0 32px 80px rgba(0,0,0,.3);
+}
+.co-modal-hd {
+  padding:18px 24px;
+  display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid #e7e5e4;
+  position:sticky; top:0; background:white; z-index:2;
+}
+.co-modal-close {
+  width:30px; height:30px; border-radius:8px;
+  background:#f5f5f4; font-size:17px;
+  display:flex; align-items:center; justify-content:center;
+}
+.co-modal-body { padding:24px; }
+
+.co-field { margin-bottom:14px; }
+.co-field label {
+  font-size:12px; font-weight:600; color:#44403c;
+  display:block; margin-bottom:6px;
+}
+.co-field input, .co-field select {
+  width:100%; border:1.5px solid #d6d3d1;
+  border-radius:11px; padding:11px 14px;
+  font-size:14px; background:#fafaf9;
+  color:#0c0a09; transition:border-color .2s;
+}
+.co-field input:focus, .co-field select:focus {
+  border-color:#f97316; background:white;
+}
+
+.co-btn-primary {
+  width:100%; background:#f97316; color:white;
+  border-radius:12px; padding:13px;
+  font-size:15px; font-weight:700;
+  margin-top:8px; transition:all .2s;
+}
+.co-btn-primary:hover { background:#c2580a; }
+
+.filter-chip {
+  padding:6px 14px; border-radius:100px;
+  font-size:12px; font-weight:600;
+  border:1.5px solid #d6d3d1; color:#78716c;
+  background:white; cursor:pointer; transition:all .2s;
+}
+.filter-chip.active { background:#fff7ed; color:#c2580a; border-color:#fed7aa; }
+
+.cswatch {
+  width:34px; height:34px; border-radius:9px;
+  cursor:pointer; border:3px solid transparent;
+  transition:all .2s;
+}
+.cswatch.active { border-color:#0c0a09; transform:scale(1.1); }
+
+table { width:100%; border-collapse:collapse; }
+th { padding:12px 20px; text-align:left; font-size:11px; font-weight:700; color:#a8a29e; text-transform:uppercase; white-space:nowrap; }
+td { padding:14px 20px; font-size:14px; color:#1c1917; border-bottom:1px solid #e7e5e4; vertical-align:middle; }
+tbody tr:last-child td { border-bottom:none; }
+tbody tr:hover { background:#fafaf9; }
+
+.badge {
+  display:inline-flex; align-items:center;
+  padding:3px 9px; border-radius:100px;
+  font-size:11px; font-weight:700;
+}
+.badge-green { background:#dcfce7; color:#15803d; }
+.badge-amber { background:#fef3c7; color:#92400e; }
+.badge-red   { background:#fee2e2; color:#dc2626; }
+.badge-blue  { background:#dbeafe; color:#1d4ed8; }
+
+.icon-btn {
+  width:30px; height:30px; border-radius:8px;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:14px; background:#f5f5f4;
+  border:1px solid #e7e5e4; transition:all .2s; cursor:pointer;
+}
+.icon-btn:hover { background:#fff7ed; border-color:#fed7aa; }
+
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+
+<script>
+const API = 'http://localhost:3000';
+
+// ══ DONNÉES ══
+let coData    = null;
+let coTrajets = [];
+let coGares   = [];
+let coBuses   = [];
+let currentPanel = 'overview';
+let trajetFilter = 'all';
+
+const CITIES = [
+  'Abidjan','Bouaké','Korhogo','Man','Yamoussoukro',
+  'San-Pédro','Daloa','Gagnoa','Odienné','Bondoukou',
+  'Aboisso','Agboville','Divo','Soubré','Abengourou','Grand-Bassam',
+];
+
+// ══ TOAST ══
+function toast(msg, color = '#1c1917') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = color;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ══ MODAL ══
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'flex';
+}
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}
+
+// ══ LOGIN ══
+async function doLogin() {
+  const email    = document.getElementById('co-email').value.trim();
+  const password = document.getElementById('co-password').value;
+  const errEl    = document.getElementById('loginError');
+  const btn      = document.getElementById('loginBtn');
+
+  if (!email || !password) {
+    errEl.textContent = 'Email et mot de passe obligatoires';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  btn.textContent = 'Connexion...';
+  btn.disabled = true;
+  errEl.style.display = 'none';
+
+  try {
+    const res  = await fetch(`${API}/auth/company/login`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erreur de connexion');
+
+    localStorage.setItem('co_token',   data.token);
+    localStorage.setItem('co_data',    JSON.stringify(data.company));
+    localStorage.setItem('co_refresh', data.refreshToken || '');
+
+    coData = data.company;
+    initDashboard();
+
+  } catch (e) {
+    errEl.textContent   = e.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.textContent = 'Se connecter →';
+    btn.disabled    = false;
+  }
+}
+
+// ══ LOGOUT ══
+function doLogout() {
+  localStorage.removeItem('co_token');
+  localStorage.removeItem('co_data');
+  localStorage.removeItem('co_refresh');
+  coData = null;
+  document.getElementById('dashboardPage').style.display = 'none';
+  document.getElementById('loginPage').style.display     = 'flex';
+  document.getElementById('co-email').value    = '';
+  document.getElementById('co-password').value = '';
+}
+
+// ══ API FETCH ══
+async function apiFetch(path, options = {}) {
+  const token = localStorage.getItem('co_token');
+
+  if (!token) {
+    throw new Error('Non connecté');
+  }
+
+  const res = await fetch(`${API}${path}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      ...(options.headers || {}),
+    },
+  });
+
+  const data = await res.json();
+
+  if (res.status === 401) {
+    // Token expiré → retour login
+    localStorage.removeItem('co_token');
+    localStorage.removeItem('co_data');
+    document.getElementById('dashboardPage').style.display = 'none';
+    document.getElementById('loginPage').style.display = 'flex';
+    throw new Error('Session expirée, reconnectez-vous');
+  }
+
+  if (!res.ok) throw new Error(data.error || 'Erreur serveur');
+  return data;
+}
+
+// ══ INIT DASHBOARD ══
+function initDashboard() {
+  document.getElementById('loginPage').style.display     = 'none';
+  document.getElementById('dashboardPage').style.display = 'block';
+
+  // Infos compagnie
+  document.getElementById('coNameSidebar').textContent = coData.name;
+  document.getElementById('adminName').textContent     = coData.adminName || 'Admin';
+  document.getElementById('adminEmail').textContent    = coData.email     || '';
+  document.getElementById('adminAvatar').textContent   = (coData.name || 'C')[0].toUpperCase();
+
+  // Alerte vérification
+  const alertEl = document.getElementById('verificationAlert');
+  if (alertEl) {
+    alertEl.style.display = coData.status === 'verified' ? 'none' : 'flex';
+  }
+
+  // Couleur de marque
+  applyColor(coData.color || '#f97316');
+
+  // Paramètres
+  document.getElementById('set-name').value   = coData.name   || '';
+  document.getElementById('set-slogan').value = coData.slogan || '';
+  document.getElementById('set-email').value  = coData.email  || '';
+
+  // Peupler les villes
+  populateCities();
+
+  // Charger les données
+  loadAll();
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+
+  // Charger le logo initial
+  const initial = (coData.name || 'C')[0].toUpperCase();
+  const logoInitEl    = document.getElementById('logoInitial');
+  const sidebarInitEl = document.getElementById('sidebarLogoInitial');
+  if (logoInitEl)    logoInitEl.textContent    = initial;
+  if (sidebarInitEl) sidebarInitEl.textContent = initial;
+
+  // Charger logo sauvegardé si existant
+  loadSavedLogo();
+  
+}
+
+// ══ PEUPLER VILLES ══
+function populateCities() {
+  ['nt-from', 'nt-to', 'ng-city'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = '<option value="">Choisir</option>' +
+      CITIES.map(c => `<option>${c}</option>`).join('');
+  });
+}
+
+// ══ CHARGER TOUT ══
+async function loadAll() {
+  await Promise.all([
+    loadStats(),
+    loadTrajets(),
+    loadGares(),
+    loadBuses(),
+  ]);
+}
+
+// ══ NAVIGATION ══
+function showPanel(panel, el) {
+  // Mettre à jour sidebar
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  if (el) el.classList.add('active');
+
+  // Cacher tous les panels
+  document.querySelectorAll('[id^="panel-"]').forEach(p => p.style.display = 'none');
+
+  // Afficher le panel cible
+  const target = document.getElementById('panel-' + panel);
+  if (target) target.style.display = 'block';
+
+  currentPanel = panel;
+
+  // Titre
+  const titles = {
+    overview: "Vue d'ensemble",
+    trajets:  'Mes trajets',
+    gares:    'Mes gares',
+    buses:    'Ma flotte',
+    bookings: 'Réservations reçues',
+    stats:    'Statistiques',
+    settings: 'Paramètres',
+  };
+  document.getElementById('pageTitle').textContent = titles[panel] || panel;
+
+  // Bouton ajouter
+  const addBtn   = document.getElementById('addBtn');
+  const addLabel = document.getElementById('addBtnLabel');
+  const modals   = { trajets: 'modal-trajet', gares: 'modal-gare', buses: 'modal-bus' };
+
+  if (modals[panel]) {
+    addBtn.style.display = 'flex';
+    addLabel.textContent = panel === 'trajets' ? 'Nouveau trajet' :
+                           panel === 'gares'   ? 'Nouvelle gare'  : 'Nouveau bus';
+    addBtn.onclick = () => {
+      if (panel === 'trajets') {
+        populateBusSelect();
+        populateCities();
+      }
+      openModal(modals[panel]);
+    };
+  } else {
+    addBtn.style.display = 'none';
+  }
+
+  // Recharger si besoin
+  if (panel === 'bookings') loadBookings();
+}
+
+function openAddModal() {
+  const modals = { trajets: 'modal-trajet', gares: 'modal-gare', buses: 'modal-bus' };
+  const modal  = modals[currentPanel];
+  if (modal) openModal(modal);
+}
+
+// ══ STATS ══
+async function loadStats() {
+  try {
+    const stats = await apiFetch('/companies/dashboard/stats');
+
+    document.getElementById('kCA').textContent      = Number(stats.revenue  || 0).toLocaleString('fr-FR');
+    document.getElementById('kTickets').textContent = stats.tickets || 0;
+    document.getElementById('kTrips').textContent   = stats.trips   || 0;
+    document.getElementById('kBuses').textContent   = stats.buses   || 0;
+
+    // Afficher aussi dans le panel stats
+    const statsRevEl = document.getElementById('statsRevenue');
+    if (statsRevEl) {
+      statsRevEl.innerHTML = `
+        <div style="text-align:center;padding:20px">
+          <div style="font-family:'arial',sans-serif;font-size:32px;font-weight:800;color:#f97316">
+            ${Number(stats.revenue || 0).toLocaleString('fr-FR')} FCFA
+          </div>
+          <div style="font-size:14px;color:#a8a29e;margin-top:8px">CA total ce mois</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px">
+          <div style="background:#fafaf9;border-radius:12px;padding:16px;text-align:center">
+            <div style="font-size:24px;font-weight:800">${stats.tickets || 0}</div>
+            <div style="font-size:12px;color:#a8a29e">Tickets vendus</div>
+          </div>
+          <div style="background:#fafaf9;border-radius:12px;padding:16px;text-align:center">
+            <div style="font-size:24px;font-weight:800">${stats.trips || 0}</div>
+            <div style="font-size:12px;color:#a8a29e">Trajets actifs</div>
+          </div>
+          <div style="background:#fafaf9;border-radius:12px;padding:16px;text-align:center">
+            <div style="font-size:24px;font-weight:800">${stats.buses || 0}</div>
+            <div style="font-size:12px;color:#a8a29e">Bus en service</div>
+          </div>
+          <div style="background:#fafaf9;border-radius:12px;padding:16px;text-align:center">
+            <div style="font-size:24px;font-weight:800">${stats.stations || 0}</div>
+            <div style="font-size:12px;color:#a8a29e">Gares actives</div>
+          </div>
+        </div>
+      `;
+    }
+  } catch (e) {
+    console.error('Stats error:', e.message);
+  }
+}
+
+// ══ TRAJETS ══
+async function loadTrajets() {
+  try {
+    coTrajets = await apiFetch('/trips/company');
+    renderTrajets();
+    renderOverviewTrips();
+  } catch (e) {
+    console.error('Trajets error:', e.message);
+  }
+}
+
+function renderTrajets() {
+  const tbody    = document.getElementById('trajetsTbody');
+  const filtered = trajetFilter === 'all'
+    ? coTrajets
+    : coTrajets.filter(t => t.status === trajetFilter);
+
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#a8a29e;padding:32px">Aucun trajet</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(t => `
+    <tr>
+      <td><strong>${t.departure_city} → ${t.arrival_city}</strong></td>
+      <td>${(t.departure_time||'').substring(0,5)} → ${(t.arrival_time||'').substring(0,5)}</td>
+      <td>${Number(t.price).toLocaleString('fr-FR')} FCFA</td>
+      <td>${t.total_seats} places</td>
+      <td>
+        <span class="badge ${
+          t.status === 'active' ? 'badge-green' :
+          t.status === 'draft'  ? 'badge-amber' : 'badge-red'
+        }">
+          ${t.status === 'active' ? 'Actif' : t.status === 'draft' ? 'Brouillon' : 'Complet'}
+        </span>
+      </td>
+      <td>
+  <div style="display:flex;gap:6px">
+    <button class="icon-btn" onclick="editTrajet('${t.id}')"><i data-lucide="pencil" style="width:14px;height:14px, color: var(--or)"></i></button>
+    <button class="icon-btn" onclick="deleteTrajet('${t.id}')"><i data-lucide="trash-2" style="width:14px;height:14px, color: var(--or)"></i></button>
+  </div>
+</td>
+  `).join('');
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function renderOverviewTrips() {
+  const el = document.getElementById('overviewTrips');
+  if (!coTrajets.length) {
+    el.innerHTML = `<div style="text-align:center;color:#a8a29e;padding:20px">Aucun trajet enregistré</div>`;
+    return;
+  }
+  el.innerHTML = coTrajets.slice(0, 5).map(t => `
+    <div style="display:flex;align-items:center;justify-content:space-between;
+                padding:10px 0;border-bottom:1px solid #e7e5e4">
+      <div>
+        <div style="font-weight:600;font-size:14px">${t.departure_city} → ${t.arrival_city}</div>
+        <div style="font-size:12px;color:#a8a29e">${(t.departure_time||'').substring(0,5)} · ${t.recurrence}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:'arial',sans-serif;font-size:14px;font-weight:800;color:#f97316">
+          ${Number(t.price).toLocaleString('fr-FR')} F
+        </div>
+        <span class="badge ${t.status === 'active' ? 'badge-green' : 'badge-amber'}">
+          ${t.status === 'active' ? 'Actif' : 'Brouillon'}
+        </span>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function filterTrajets(el, filter) {
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  trajetFilter = filter;
+  renderTrajets();
+}
+
+async function addTrajet() {
+  const from   = document.getElementById('nt-from').value;
+  const to     = document.getElementById('nt-to').value;
+  const dep    = document.getElementById('nt-dep').value;
+  const arr    = document.getElementById('nt-arr').value;
+  const prix   = document.getElementById('nt-prix').value;
+  const places = document.getElementById('nt-places').value;
+
+  if (!from || !to || !prix || !places) {
+    toast('Remplissez tous les champs obligatoires', '#dc2626');
+    return;
+  }
+  if (from === to) {
+    toast('Départ et destination doivent être différents', '#dc2626');
+    return;
+  }
+
+  try {
+    await apiFetch('/trips', {
+      method: 'POST',
+      body:   JSON.stringify({
+        departureCity: from, arrivalCity: to,
+        departureTime: dep,  arrivalTime: arr,
+        price:         Number(prix),
+        totalSeats:    Number(places),
+        busId:         document.getElementById('nt-bus').value || undefined,
+        recurrence:    document.getElementById('nt-rec').value,
+      }),
+    });
+    closeModal('modal-trajet');
+    await loadTrajets();
+    toast('<i data-lucide="check" style="width:14px;height:14px, color: var(--or)"></i> Trajet publié avec succès !', '#15803d');
+  } catch (e) {
+    toast(e.message, '#dc2626');
+  }
+}
+
+async function deleteTrajet(id) {
+  if (!confirm('Supprimer ce trajet ?')) return;
+  try {
+    await apiFetch(`/trips/${id}`, { method: 'DELETE' });
+    await loadTrajets();
+    toast('Trajet supprimé', '#f97316');
+  } catch (e) {
+    toast(e.message, '#dc2626');
+  }
+}
+
+// ══ GARES ══
+async function loadGares() {
+  try {
+    coGares = await apiFetch('/companies/stations');
+    renderGares();
+  } catch (e) {
+    console.error('Gares error:', e.message);
+  }
+}
+
+function renderGares() {
+  const tbody = document.getElementById('garesTbody');
+  if (!coGares.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#a8a29e;padding:32px">Aucune gare</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = coGares.map(g => `
+    <tr>
+      <td><strong>${g.name}</strong></td>
+      <td>${g.city}</td>
+      <td><span class="badge badge-blue">${g.type}</span></td>
+      <td>${g.capacity || 0} / jour</td>
+      <td>
+        <span class="badge ${g.is_active ? 'badge-green' : 'badge-red'}">
+          ${g.is_active ? 'Active' : 'Inactive'}
+        </span>
+      </td>
+      <td>
+      <div style="display:flex;gap:6px">
+      <button class="icon-btn" onclick="editGare('${g.id}')"><i data-lucide="pencil" style="width:14px;height:14px, color: var(--or)"></i></button>
+      <button class="icon-btn" onclick="deleteGare('${g.id}')"><i data-lucide="trash-2" style="width:14px;height:14px, color: var(--or)"></i></button>
+      </div>
+    </td>
+    </tr>
+  `).join('');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+async function addGare() {
+  const name = document.getElementById('ng-name').value;
+  const city = document.getElementById('ng-city').value;
+
+  if (!name || !city) {
+    toast('Nom et ville obligatoires', '#dc2626');
+    return;
+  }
+
+  try {
+    await apiFetch('/companies/stations', {
+      method: 'POST',
+      body:   JSON.stringify({
+        name, city,
+        country:      document.getElementById('ng-country').value || "Côte d'Ivoire",
+        address:      document.getElementById('ng-addr').value    || '',
+        type:         document.getElementById('ng-type').value    || 'main',
+        capacity:     Number(document.getElementById('ng-cap').value)     || 0,
+        managerName:  document.getElementById('ng-manager').value || '',
+        managerPhone: document.getElementById('ng-tel').value     || '',
+      }),
+    });
+    closeModal('modal-gare');
+    await loadGares();
+    toast('<i data-lucide="check" style="width:14px;height:14px, color: var(--or)"></i> Gare enregistrée !', '#15803d');
+  } catch (e) {
+    toast(e.message, '#dc2626');
+  }
+}
+
+async function deleteGare(id) {
+  if (!confirm('Supprimer cette gare ?')) return;
+  try {
+    await apiFetch(`/companies/stations/${id}`, { method: 'DELETE' });
+    await loadGares();
+    toast('Gare supprimée', '#f97316');
+  } catch (e) {
+    toast(e.message, '#dc2626');
+  }
+}
+
+// ══ BUSES ══
+async function loadBuses() {
+  try {
+    coBuses = await apiFetch('/companies/buses');
+    renderBuses();
+    populateBusSelect();
+  } catch (e) {
+    console.error('Buses error:', e.message);
+  }
+}
+
+function renderBuses() {
+  const tbody = document.getElementById('busesTbody');
+  if (!coBuses.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#a8a29e;padding:32px">Aucun bus</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = coBuses.map(b => `
+    <tr>
+      <td><strong>${b.license_plate}</strong></td>
+      <td>${b.brand} ${b.model}</td>
+      <td>${b.year}</td>
+      <td>${b.capacity} places</td>
+      <td>
+        <span class="badge ${
+          b.status === 'active'      ? 'badge-green' :
+          b.status === 'maintenance' ? 'badge-amber' : 'badge-blue'
+        }">
+          ${b.status === 'active' ? 'En service' : b.status === 'maintenance' ? 'Maintenance' : 'Réserve'}
+        </span>
+      </td>
+      <td>
+      <div style="display:flex;gap:6px">
+      <button class="icon-btn" onclick="editBus('${b.id}')"><i data-lucide="pencil" style="width:14px;height:14px; color"></i></button>
+      <button class="icon-btn" onclick="deleteBus('${b.id}')"><i data-lucide="trash-2" style="width:14px;height:14px, color: var(--or)"></i></button>
+      </div>
+      </td>
+      </tr>
+  `).join('');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+
+function populateBusSelect() {
+  const el = document.getElementById('nt-bus');
+  if (!el) return;
+  el.innerHTML = '<option value="">Sélectionner un bus</option>' +
+    coBuses
+      .filter(b => b.status === 'active')
+      .map(b => `<option value="${b.id}" data-capacity="${b.capacity}">
+        ${b.license_plate} — ${b.brand} ${b.model} (${b.capacity} places)
+      </option>`)
+      .join('');
+
+  // Quand un bus est sélectionné, remplir automatiquement les places
+  el.onchange = function() {
+    const selected = el.options[el.selectedIndex];
+    const capacity = selected.dataset.capacity;
+    const placesEl = document.getElementById('nt-places');
+    if (capacity && placesEl) {
+      placesEl.value = capacity;
+      placesEl.readOnly = true;
+      placesEl.style.background = '#f5f5f4';
+      placesEl.style.color = '#a8a29e';
+    } else if (placesEl) {
+      placesEl.readOnly = false;
+      placesEl.style.background = '';
+      placesEl.style.color = '';
+      placesEl.value = '';
+    }
+  };
+}
+
+async function addBus() {
+  const immat = document.getElementById('nb-immat').value.trim();
+  const cap   = document.getElementById('nb-cap').value;
+
+  if (!immat || !cap) {
+    toast('Immatriculation et capacité obligatoires', '#dc2626');
+    return;
+  }
+
+  const amenities = [];
+  if (document.getElementById('eq-ac').checked)     amenities.push('Climatisation');
+  if (document.getElementById('eq-wifi').checked)   amenities.push('WiFi');
+  if (document.getElementById('eq-usb').checked)    amenities.push('USB');
+  if (document.getElementById('eq-toilet').checked) amenities.push('Toilettes');
+
+  try {
+    await apiFetch('/companies/buses', {
+      method: 'POST',
+      body:   JSON.stringify({
+        licensePlate: immat,
+        brand:        document.getElementById('nb-brand').value || '',
+        model:        document.getElementById('nb-model').value || '',
+        year:         Number(document.getElementById('nb-year').value)  || 2023,
+        capacity:     Number(cap),
+        amenities,
+        lastRevision: document.getElementById('nb-rev').value   || null,
+        status:       document.getElementById('nb-stat').value  || 'active',
+      }),
+    });
+    closeModal('modal-bus');
+    await loadBuses();
+    toast('<i data-lucide="check" style="width:14px;height:14px, color: var(--or)"></i> Bus ajouté à la flotte !', '#15803d');
+  } catch (e) {
+    toast(e.message, '#dc2626');
+  }
+}
+
+async function deleteBus(id) {
+  if (!confirm('Retirer ce bus ?')) return;
+  try {
+    await apiFetch(`/companies/buses/${id}`, { method: 'DELETE' });
+    await loadBuses();
+    toast('Bus retiré', '#f97316');
+  } catch (e) {
+    toast(e.message, '#dc2626');
+  }
+}
+
+// ══ RÉSERVATIONS ══
+async function loadBookings() {
+  try {
+    const bookings = await apiFetch('/companies/bookings');
+    const tbody    = document.getElementById('bookingsTbody');
+    if (!bookings.length) {
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#a8a29e;padding:32px">Aucune réservation</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = bookings.map(b => `
+      <tr>
+        <td><strong>${b.reference}</strong></td>
+        <td>${b.passenger_name}</td>
+        <td>${b.departure_city} → ${b.arrival_city}</td>
+        <td>${Number(b.amount).toLocaleString('fr-FR')} FCFA</td>
+        <td>
+          <span class="badge ${
+            b.status === 'confirmed' ? 'badge-green' :
+            b.status === 'pending'   ? 'badge-amber' : 'badge-red'
+          }">
+            ${b.status === 'confirmed' ? '<i data-lucide="check" style="width:14px;height:14px, color: var(--or)"></i> Confirmé' :
+              b.status === 'pending'   ? '⏳ En attente' : '❌ Annulé'}
+          </span>
+        </td>
+      </tr>
+    `).join('');
+  } catch (e) {
+    console.error('Bookings error:', e.message);
+  }
+}
+
+// ══ PARAMÈTRES ══
+async function saveSettings() {
+  try {
+    await apiFetch('/companies/profile', {
+      method: 'PUT',
+      body:   JSON.stringify({
+        name:   document.getElementById('set-name').value,
+        slogan: document.getElementById('set-slogan').value,
+        color:  coData.color,
+      }),
+    });
+    toast('✓ Paramètres enregistrés', '#15803d');
+  } catch (e) {
+    toast(e.message, '#dc2626');
+  }
+}
+
+function applyColor(color) {
+  document.getElementById('sidebar').style.background = color;
+  document.getElementById('colorPreview').style.background = color;
+  document.getElementById('colorPicker').value = color;
+  if (coData) coData.color = color;
+}
+
+function pickColor(el) {
+  document.querySelectorAll('.cswatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  applyColor(el.dataset.c);
+}
+
+function pickColorCustom(val) {
+  applyColor(val);
+}
+
+// ══ DÉMARRAGE ══
+window.addEventListener('DOMContentLoaded', () => {
+  const token = localStorage.getItem('co_token');
+  const data  = localStorage.getItem('co_data');
+
+  if (token && data) {
+    coData = JSON.parse(data);
+    initDashboard();
+  }
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+});
+
+
+// Preview logo avant upload
+function previewLogo(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const src = e.target.result;
+
+    // Preview dans paramètres
+    const img      = document.getElementById('logoImg');
+    const initial  = document.getElementById('logoInitial');
+    if (img)     { img.src = src; img.style.display = 'block'; }
+    if (initial) initial.style.display = 'none';
+
+    // Preview dans sidebar
+    const sidebarImg     = document.getElementById('sidebarLogoImg');
+    const sidebarInitial = document.getElementById('sidebarLogoInitial');
+    if (sidebarImg)     { sidebarImg.src = src; sidebarImg.style.display = 'block'; }
+    if (sidebarInitial) sidebarInitial.style.display = 'none';
+
+    // Sauvegarder en base64 pour persistance
+    localStorage.setItem('co_logo', src);
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+// Charger le logo sauvegardé
+function loadSavedLogo() {
+  const src = localStorage.getItem('co_logo');
+  if (!src) return;
+
+  const img      = document.getElementById('logoImg');
+  const initial  = document.getElementById('logoInitial');
+  if (img)     { img.src = src; img.style.display = 'block'; }
+  if (initial) initial.style.display = 'none';
+
+  const sidebarImg     = document.getElementById('sidebarLogoImg');
+  const sidebarInitial = document.getElementById('sidebarLogoInitial');
+  if (sidebarImg)     { sidebarImg.src = src; sidebarImg.style.display = 'block'; }
+  if (sidebarInitial) sidebarInitial.style.display = 'none';
+}
+
+
+// ══ MODIFIER TRAJET ══
+function editTrajet(id) {
+  const t = coTrajets.find(x => x.id === id);
+  if (!t) return;
+
+  // Remplir le modal avec les données existantes
+  document.getElementById('nt-from').value   = t.departure_city;
+  document.getElementById('nt-to').value     = t.arrival_city;
+  document.getElementById('nt-dep').value    = (t.departure_time||'').substring(0,5);
+  document.getElementById('nt-arr').value    = (t.arrival_time||'').substring(0,5);
+  document.getElementById('nt-prix').value   = t.price;
+  document.getElementById('nt-places').value = t.total_seats;
+  document.getElementById('nt-rec').value    = t.recurrence;
+
+  // Changer le bouton pour update
+  const btn = document.querySelector('#modal-trajet .co-btn-primary');
+  if (btn) {
+    btn.textContent = '<i data-lucide="check" style="width:14px;height:14px, color: var(--or)"></i> Mettre à jour ce trajet';
+    btn.onclick = () => updateTrajet(id);
+  }
+
+  openModal('modal-trajet');
+}
+
+async function updateTrajet(id) {
+  const from   = document.getElementById('nt-from').value;
+  const to     = document.getElementById('nt-to').value;
+  const dep    = document.getElementById('nt-dep').value;
+  const arr    = document.getElementById('nt-arr').value;
+  const prix   = document.getElementById('nt-prix').value;
+  const places = document.getElementById('nt-places').value;
+
+  try {
+    await apiFetch(`/trips/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        departureTime: dep,
+        arrivalTime:   arr,
+        price:         Number(prix),
+        totalSeats:    Number(places),
+        recurrence:    document.getElementById('nt-rec').value,
+      }),
+    });
+    closeModal('modal-trajet');
+
+    // Réinitialiser le bouton
+    const btn = document.querySelector('#modal-trajet .co-btn-primary');
+    if (btn) {
+      btn.textContent = '<i data-lucide="check" style="width:14px;height:14px, color:var(--or)"></i> Publier ce trajet';
+      btn.onclick = addTrajet;
+    }
+
+    await loadTrajets();
+    toast('✓ Trajet mis à jour', '#15803d');
+  } catch (e) {
+    toast(e.message, '#dc2626');
+  }
+}
+
+// ══ MODIFIER GARE ══
+function editGare(id) {
+  const g = coGares.find(x => x.id === id);
+  if (!g) return;
+
+  document.getElementById('ng-name').value    = g.name;
+  document.getElementById('ng-city').value    = g.city;
+  document.getElementById('ng-country').value = g.country;
+  document.getElementById('ng-addr').value    = g.address    || '';
+  document.getElementById('ng-cap').value     = g.capacity   || 0;
+  document.getElementById('ng-manager').value = g.manager_name  || '';
+  document.getElementById('ng-tel').value     = g.manager_phone || '';
+
+  const btn = document.querySelector('#modal-gare .co-btn-primary');
+  if (btn) {
+    btn.textContent = '<i data-lucide="check" style="width:14px;height:14px, color: var(--or)"></i> Mettre à jour cette gare';
+    btn.onclick = () => updateGare(id);
+  }
+
+  openModal('modal-gare');
+}
+
+async function updateGare(id) {
+  try {
+    await apiFetch(`/companies/stations/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        name:         document.getElementById('ng-name').value,
+        city:         document.getElementById('ng-city').value,
+        country:      document.getElementById('ng-country').value,
+        address:      document.getElementById('ng-addr').value,
+        capacity:     Number(document.getElementById('ng-cap').value) || 0,
+        managerName:  document.getElementById('ng-manager').value,
+        managerPhone: document.getElementById('ng-tel').value,
+      }),
+    });
+    closeModal('modal-gare');
+
+    const btn = document.querySelector('#modal-gare .co-btn-primary');
+    if (btn) { btn.textContent = '<i data-lucide="check" style="width:14px;height:14px, color: var(--or)"></i> Enregistrer la gare'; btn.onclick = addGare; }
+
+    await loadGares();
+    toast('✓ Gare mise à jour', '#15803d');
+  } catch (e) {
+    toast(e.message, '#dc2626');
+  }
+}
+
+// ══ MODIFIER BUS ══
+function editBus(id) {
+  const b = coBuses.find(x => x.id === id);
+  if (!b) return;
+
+  document.getElementById('nb-immat').value = b.license_plate;
+  document.getElementById('nb-brand').value = b.brand || '';
+  document.getElementById('nb-model').value = b.model || '';
+  document.getElementById('nb-year').value  = b.year  || '';
+  document.getElementById('nb-cap').value   = b.capacity;
+  document.getElementById('nb-stat').value  = b.status;
+
+  // Cocher les équipements
+  const amenities = b.amenities || [];
+  document.getElementById('eq-ac').checked     = amenities.includes('Climatisation');
+  document.getElementById('eq-wifi').checked   = amenities.includes('WiFi');
+  document.getElementById('eq-usb').checked    = amenities.includes('USB');
+  document.getElementById('eq-toilet').checked = amenities.includes('Toilettes');
+
+  const btn = document.querySelector('#modal-bus .co-btn-primary');
+  if (btn) {
+    btn.textContent = '<i data-lucide="check" style="width:14px;height:14px, color: var(--or)"></i> Mettre à jour ce bus';
+    btn.onclick = () => updateBus(id);
+  }
+
+  openModal('modal-bus');
+}
+
+async function updateBus(id) {
+  const amenities = [];
+  if (document.getElementById('eq-ac').checked)     amenities.push('Climatisation');
+  if (document.getElementById('eq-wifi').checked)   amenities.push('WiFi');
+  if (document.getElementById('eq-usb').checked)    amenities.push('USB');
+  if (document.getElementById('eq-toilet').checked) amenities.push('Toilettes');
+
+  try {
+    await apiFetch(`/companies/buses/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        licensePlate: document.getElementById('nb-immat').value,
+        brand:        document.getElementById('nb-brand').value,
+        model:        document.getElementById('nb-model').value,
+        year:         Number(document.getElementById('nb-year').value),
+        capacity:     Number(document.getElementById('nb-cap').value),
+        status:       document.getElementById('nb-stat').value,
+        amenities,
+      }),
+    });
+    closeModal('modal-bus');
+
+    const btn = document.querySelector('#modal-bus .co-btn-primary');
+    if (btn) { btn.textContent = '<i data-lucide="check" style="width:14px;height:14px, color: var(--or)"></i> Ajouter ce bus'; btn.onclick = addBus; }
+
+    await loadBuses();
+    toast('✓ Bus mis à jour', '#15803d');
+  } catch (e) {
+    toast(e.message, '#dc2626');
+  }
+}
+
+</script>
+
+
+</body>
+</html>
